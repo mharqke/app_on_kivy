@@ -246,13 +246,28 @@
 
 
 
-print('hello world')
+# print('hello world')
 
 
 
 
 
+# from kivy.app import App
+# from kivy.uix.label import Label
+# from kivy.clock import Clock
+# from datetime import datetime
 
+# class TimeApp(App):
+#     def build(self):
+#         self.time_label = Label(text=datetime.now().strftime('%H:%M:%S'))
+#         Clock.schedule_interval(self.update_time, 1)
+#         return self.time_label
+
+#     def update_time(self, dt):
+#         self.time_label.text = datetime.now().strftime('%H:%M:%S')
+
+# if __name__ == '__main__':
+#     TimeApp().run()
 
 
 

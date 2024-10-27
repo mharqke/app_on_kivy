@@ -1,3 +1,4 @@
+import datetime, time, subprocess, os
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
@@ -5,14 +6,14 @@ from kivy.vector import Vector
 from kivy.clock import Clock
 from kivy.graphics import *
 from random import randint
-import datetime, time, subprocess, os
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.config import Config
-from kivy.app import App
 from kivy.uix.button import Button
 
-
+# add new layout
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
 
 Config.set('kivy', 'exit_on_escape', '0')
 Builder.load_file('back.kv')
@@ -40,6 +41,7 @@ class Cell(Widget):
             self.color = (1,1,1,1/20)
 
 class BinaryClock(Widget):
+    tmr_label = time.time()
     temp_file = "temp_stat.txt"
     main_file = "main_stat.txt"
     # create objects
@@ -94,7 +96,6 @@ class BinaryClock(Widget):
         
         Window.bind(on_request_close=self.on_request_close)
         BinaryClock.rem_temp_file(self.temp_file, self.main_file)
-
         self.tmr1 = time.time() - 499
         self.tmr_begin = int(time.time()) 
         self.date_begin = str(datetime.datetime.now())[:-7]
@@ -261,12 +262,24 @@ class BinaryClock(Widget):
         return False
 
 class ClockApp(App):
+    def __init__(self):
+        super().__init__()
+        self.label = Label(text=str(int(time.time() - BinaryClock.tmr_label))) # show time
+
 
     def build(self):
-        game = BinaryClock()
+        box = BoxLayout(orientation='vertical') #layout, which consist other objects
+        game = BinaryClock() #binary clock
         game.begin()
+        box.add_widget(game) #put clock in box
+        box.add_widget(self.label) #put label in box
         Clock.schedule_interval(game.update, 1)
-        return game    
+        Clock.schedule_interval(self.update_time, 1)
+        return box
+    def update_time(self, dt): 
+        tm = time.time() - BinaryClock.tmr_label #how many seconds have passed since start
+        text = str(int(tm//3600)).zfill(2) + ' : ' + str(int((tm%3600)//60)).zfill(2) + ' : ' + str(int(tm%60)).zfill(2)
+        self.label.text = text
 
 
 if __name__ == '__main__':
