@@ -273,68 +273,191 @@
 
 
 
+'''
+
+import serial, time
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
+
+arduino = serial.Serial(port='COM5',   baudrate=115200, timeout=.1)
+
+# def send_to_com_port(x):
+#     arduino.write(bytes(x, 'utf-8'))
+#     time.sleep(0.05)
+#     data = arduino.readline()
+#     return data
+
+# while True:
+# num = input("Enter a number: ")
+# value = send_to_com_port(num)
+# print(value)
+
+
+
+class MyApp(App):
+    flag = False
+    def build(self):
+        self.layout = BoxLayout(orientation='vertical')
+        self.button = Button(text='Press me!', font_size=24)
+        self.button.bind(on_press=self.on_button_press)
+        self.layout.add_widget(self.button)
+        return self.layout
+
+
+    def on_button_press(self, instance):
+        arduino.write(bytes(str(int(self.flag)), 'utf-8'))
+        self.flag = not self.flag
+
+
+
+if __name__ == '__main__':
+    MyApp().run()
+# print(int(not 1))
+'''
 
 
 
 
 
 
+# import random 
+# s = [random.randint(1, 40) for _ in range(10)]
+# max = 1
+# pre_max = 0 
+# for i in s:
+#     if i > max:
+#         pre_max = max
+#         max = i
+# print(sort(s), '\n', max, pre_max)
+
+
+
+
+# def transferTime(line):
+#     ln = line.split()[1]
+#     sum = int(ln[0:2]) * 3600 + int(ln[3:5]) * 60 + int(ln[6:8])
+#     ans = [sum, ln[-2:]]
+#     return ans
+
+
+# def compareTime(tm1, tm2):
+#     if tm1[1] == tm2[1]:
+#         diff = tm2[0] - tm1[0]
+#     else:
+#         diff = 86400 - tm1[0] + tm2[0]
+#     if diff > 900:
+#         return False
+#     return True
+
+# line = '465;2024-12-23 20:12:42;2024-12-23 20:20:27;Windows Explorer,Telegram Desktop,Visual Studio Code,Firefox,Python,Setup/Uninstall,'
+
+# print(transferTime(line))
+
+ 
+# tm1 = '79;2024-12-23 23:59:59;2024-12-25 00:04:42;Setup/Uninstall,'
+# tm2 = '79;2024-12-25 00:00:01;2024-12-25 00:04:42;Setup/Uninstall,'
+
+# print(n[n.find(';', n.find(';')+1):])
+
+# print(n.split(';')[1])
+
+
+# DIFF_TIME = 100
+
+# def compareTime(tm1, tm2):
+
+#         def transferTime(line):
+#             try:
+#                 ln = line.split(';')[1]
+#                 sum = int(ln[11:13]) * 3600 + int(ln[14:16]) * 60 + int(ln[17:20])
+#                 ans = [sum, int(ln[5:7] + ln[8:10])] #summ and day
+#                 return ans
+#             except:
+#                  return -1
+#         tm1 = transferTime(tm1)
+#         tm2 = transferTime(tm2)
+        
+#         if tm1 == -1 or tm2 == -1:
+#              return True
+        
+#         if tm1[1] == tm2[1]:
+#             diff = tm2[0] - tm1[0]
+#         elif tm2[1] - tm1[1] == 1:
+#             diff = 86400 - tm1[0] + tm2[0]
+#         else:
+#             return True
+#         if diff > DIFF_TIME:
+#             return True
+#         return False
+
+# print(compareTime(tm1, tm2))
 
 
 
 
 
+# import kivy
+# from kivy.app import App
+# from kivy.uix.label import Label
+# from kivy.uix.button import Button
+# from kivy.uix.boxlayout import BoxLayout
+# from pystray import Icon, Menu, MenuItem
+# import PIL.Image 
+
+# class MyApp(App):
+#     def build(self):
+#         layout = BoxLayout(orientation='vertical')
+#         label = Label(text='Hello, world!')
+#         button = Button(text='Click me!')
+#         layout.add_widget(label)
+#         layout.add_widget(button)
+#         return layout
+
+#     def on_start(self):
+#         menu = Menu(
+#             MenuItem('Show/Hide', self.toggle_visibility),
+#             MenuItem('Exit', self.stop)
+#         )
+#         icon = Icon('My App', menu=menu)
+#         image = PIL.Image.open("D:/3VERGIVEN/common folder/python/projects/statistic/in_process/app_on_kivy\pict.png")
+
+#         icon.run()
+
+#     def toggle_visibility(self):
+#         self.root.opacity = 1 if self.root.opacity == 0 else 0
+
+#     def stop(self):
+#         icon.stop()
+#         App.get_running_app().stop()
+
+# if __name__ == '__main__':
+#     MyApp().run()
 
 
 
 
+# if 1:
+#   print(1)
+# if 2:
+#   print(2)
+# if 0:
+#   print(0)
+
+# if 1:
+#   print(1)
+# else:
+#   print(2)
 
 
 
+# a = "mega_delete.txt"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# f = open(a, "a")
+# f.write("hehehe")
+# f.close()
+import datetime
+# print(datetime.datetime.now())
 
 
 
