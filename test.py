@@ -463,19 +463,45 @@ if __name__ == '__main__':
 
 
 
+# interesting idea for loop after mainloop was started
+# import tkinter, time
+# clock = tkinter.Label(width=24)
+# clock.pack()
+# def tick():
+#     clock.config(text=time.strftime('%H:%M:%S'))
+#     clock.after(200, tick)
+# tick()
+# clock.mainloop()
 
 
 
-
-
-
-
-
-
-
-
-
-
+# import sys
+# import pystray
+# import tkinter as tk
+# from PIL import Image
+# from pystray import MenuItem as item
+# def quit_window(icon, item):
+#     icon.visible = False
+#     icon.stop()
+#     window.after(0, window.deiconify)
+#     window.quit()
+# def show_window(icon, item):
+#     window.after(0, window.deiconify)
+# def withdraw_window():
+#     window.withdraw()
+# image = Image.open("app_on_kivy/image.ico")
+# menu = (
+#         item('Show', show_window),
+#         item('Quit', quit_window)
+#     )
+# icon = pystray.Icon("name", image, "title", menu)
+# icon.run_detached()
+# window = tk.Tk()
+# window.title("Welcome")
+# window.protocol('WM_DELETE_WINDOW', withdraw_window)
+# window.withdraw()
+# window.mainloop()
+ 
 
 
 
@@ -483,77 +509,47 @@ if __name__ == '__main__':
 
 
 import tkinter as tk
-import pystray
-from pystray import MenuItem, Icon
-from PIL import Image, ImageDraw
-import threading
 
-# Global variable to hold the text
-text_variable = ""
+def button_clicked():
+    print("Button clicked!")
 
-def create_image(width, height):
-    """Create an image for the tray icon."""
-    image = Image.new('RGB', (width, height), (255, 255, 255))
-    dc = ImageDraw.Draw(image)
-    # dc.rectangle(
-    #     (width // 4, height // 4, width  3 // 4, height  3 // 4),
-    #     fill=(0, 128, 255)
-    # )
-    return image
+root = tk.Tk()
 
-def show_window():
-    """Show the text entry window."""
-    window.deiconify()
+# Creating a button with specified options
+button = tk.Button(root, 
+                   text="show stat", 
+                   command=button_clicked,
+                #    activebackground="blue", 
+                #    activeforeground="white",
+                #    anchor="center",
+                #    bd=3,
+                #    bg="lightgray",
+                #    cursor="hand2",
+                #    disabledforeground="gray",
+                #    fg="black",
+                #    font=("Arial", 12),
+                #    height=2,
+                #    highlightbackground="black",
+                #    highlightcolor="green",
+                #    highlightthickness=2,
+                #    justify="center",
+                #    overrelief="raised",
+                #    padx=10,
+                #    pady=5,
+                #    width=15,
+                #    wraplength=100
+)
 
-def hide_window():
-    """Hide the text entry window."""
-    window.withdraw()
+button.pack(padx=20, pady=20)
 
-def update_variable():
-    """Update the global variable with the text from the entry."""
-    global text_variable
-    text_variable = text_entry.get()
-    print(f"Updated variable: {text_variable}")  # Print the updated variable
+root.mainloop()
 
-def on_exit(icon, item):
-    """Exit the application."""
-    icon.stop()
-    window.quit()
 
-def setup(icon):
-    """Setup the icon and menu."""
-    icon.visible = True
 
-# Create the text entry window
-window = tk.Tk()
-window.title("Enter Text")
-window.geometry("300x150")
-window.withdraw()  # Start hidden
 
-# Create a text entry field
-text_entry = tk.Entry(window, width=30)
-text_entry.pack(pady=10)
 
-# Create a button to update the variable
-update_button = tk.Button(window, text="Update Variable", command=update_variable)
-update_button.pack(pady=5)
 
-# Create a button to hide the text entry window
-hide_button = tk.Button(window, text="Hide", command=hide_window)
-hide_button.pack(pady=5)
 
-# Create the tray icon
-icon = Icon("test_icon", create_image(64, 64), "My Tray Icon", menu=pystray.Menu(
-    MenuItem("Show Text Entry", show_window),
-    MenuItem("Hide Text Entry", hide_window),
-    MenuItem("Exit", on_exit)
-))
-
-# Start the icon in a separate thread
-threading.Thread(target=icon.run, daemon=True).start()
-
-# Start the main loop
-window.mainloop()
 
 
 

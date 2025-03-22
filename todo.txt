@@ -3,8 +3,15 @@ rewrite compareTime, what if you don’t turn on your PC more than a day
 
 shoose image and create sth if image path is not found       
 
-
-
+now(
+--change exit function
+--add blank window  
+--write to logs if you quit manual
+)
+windows consist of (
+  show statistics by day
+  setting (i.e. change file names)
+)
 
 
 

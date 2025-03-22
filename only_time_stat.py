@@ -7,6 +7,7 @@ import pystray
 import datetime 
 import threading
 import subprocess
+import tkinter as tk
 from PIL import Image, ImageDraw
 from pystray import MenuItem, Icon
 
@@ -16,6 +17,7 @@ STAT_FREQUENCY = 10 * 60
 DIFF_TIME = 1000
 
 class Statistic():
+    # i.e.
     # temp_file = "t_only_stat.txt"
     # main_file = "m_only_stat.txt"
     # logs_file = "logs.txt"
@@ -30,16 +32,15 @@ class Statistic():
 
 
     def write_to_logs(self, info):
-        lf = self.logs_file
-        print("lf: ", lf)
-        if os.path.exists(lf):
-            f = open(lf, "a")
-            f.write(str(datetime.datetime.now())[:-7] + ':' + info)
+        print("lf: ", self.logs_file)
+        if os.path.exists(self.logs_file):
+            f = open(self.logs_file, "a")
+            f.write(str(datetime.datetime.now())[:-7] + ':' + info + '\n')
             f.close()
         else:
-            f = open(lf, "w")
+            f = open(self.logs_file, "w")
             f.write("logs for \"only_time_stat.py\"\n")
-            f.write(str(datetime.datetime.now())[:-7] + ':' + info)
+            f.write(str(datetime.datetime.now())[:-7] + ':' + info + '\n')
             f.close()
 
     
@@ -86,7 +87,7 @@ class Statistic():
                     f.write(last)
                     f.close()
                     os.remove(temp)
-                    self.write_to_logs("start a new session\n")
+                    self.write_to_logs("start a new session")
                 else:
                     f = open(temp, "a")
                     # DataNow = last[:last.find(';')] + DataNow[int(DataNow[DataNow.find(';'):])] 
@@ -95,10 +96,10 @@ class Statistic():
                     f.close() 
                     self.tmr_begin = int(time.time()) - int(last[:last.find(';')]) - STAT_FREQUENCY
                     self.date_begin = last.split(';')[1]
-                    self.write_to_logs('last session was continued\n')
+                    self.write_to_logs("last session was continued")
             else:
                 os.remove(temp)
-                self.write_to_logs('t_only_stat.txt is bad\n')
+                self.write_to_logs("t_only_stat.txt is bad")
 
 
     def get_apps(list): #return array of running apps
@@ -135,12 +136,15 @@ class Statistic():
         
 
     def on_request_close(self, *args): 
+        # only for Statistic
         #code here runs when you try to close window
         #but in normal situation this shouldn't happen 
         f = open(f'{self.temp_file}', "a")
         f.write(Statistic.returnDataNow(self))
         f.write('\n')
         f.close()
+        self.write_to_logs("was manualy closed")
+        
 
 
     def update(self):
@@ -152,12 +156,10 @@ class Statistic():
 
 
 
-# image = Image.open("D:/3VERGIVEN/common folder/python/projects/statistic/in_process/app_on_kivy/pict.png")
 
 uwu = Statistic("t_only_stat.txt", "m_only_stat.txt", "logs.txt")
 uwu.begin()
 uwu.update()
-
 
 
 def infinite_loop():
@@ -165,37 +167,61 @@ def infinite_loop():
         uwu.update()
         time.sleep(STAT_FREQUENCY)
 
-# def show_terminal():    
-#     subprocess.Popen(['gnome-terminal'])  # Replace with your terminal emulator of choice
-
-# Define a function to hide the terminal
-# def hide_terminal():
-#     subprocess.Popen(['pkill', 'gnome-terminal'])  # Replace with your terminal emulator of choice
-
-# def toggle_terminal(icon):
-#     if icon.title == 'Terminal Toggle':
-#         show_terminal()
-#         icon.title = 'Terminal Hide'
-#     else:
-#         hide_terminal()
-#         icon.title = 'Terminal Toggle'
 
 def on_exit(icon, item):
     uwu.on_request_close()
     icon.stop()
+    window.after(0, window.deiconify)
+    window.quit()
+
+
+def show_window(icon, item):
+    window.after(0, window.deiconify)
+
+
+def withdraw_window():
+    window.withdraw()
+
 
 image = Image.open("D:/3VERGIVEN/common folder/python/projects/statistic/app_on_kivy/pict.png")
 
+
 icon = Icon("test_icon", image, "My Tray Icon", menu=pystray.Menu(
-    # MenuItem('Toggle Terminal', lambda icon: toggle_terminal(icon)),
+    MenuItem('Show', show_window),
     MenuItem("Exit", on_exit)
 ))
 
+
 threading.Thread(target=infinite_loop, daemon=True).start()
 
-icon.run()
 
+icon.run_detached()
 
+def show_stat():
+    print("1test220325")
+
+def open_setting():
+    print("2test220325")
+
+window = tk.Tk()
+window.title("Welcome")
+window.geometry('180x200')
+window.protocol('WM_DELETE_WINDOW', withdraw_window)
+
+button1 = tk.Button(window, 
+    text="show stat",
+    command=show_stat
+)
+button1.pack(padx=40, pady=25)
+
+button2 = tk.Button(window, 
+    text="show setting",
+    command=open_setting
+)
+button2.pack(padx=40, pady=25)
+
+window.withdraw()
+window.mainloop()
 
 
 
