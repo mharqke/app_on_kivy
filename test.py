@@ -456,7 +456,7 @@ if __name__ == '__main__':
 # f = open(a, "a")
 # f.write("hehehe")
 # f.close()
-import datetime
+# import datetime
 # print(datetime.datetime.now())
 
 
@@ -482,92 +482,78 @@ import datetime
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import tkinter as tk
+import pystray
+from pystray import MenuItem, Icon
+from PIL import Image, ImageDraw
+import threading
+
+# Global variable to hold the text
+text_variable = ""
+
+def create_image(width, height):
+    """Create an image for the tray icon."""
+    image = Image.new('RGB', (width, height), (255, 255, 255))
+    dc = ImageDraw.Draw(image)
+    # dc.rectangle(
+    #     (width // 4, height // 4, width  3 // 4, height  3 // 4),
+    #     fill=(0, 128, 255)
+    # )
+    return image
+
+def show_window():
+    """Show the text entry window."""
+    window.deiconify()
+
+def hide_window():
+    """Hide the text entry window."""
+    window.withdraw()
+
+def update_variable():
+    """Update the global variable with the text from the entry."""
+    global text_variable
+    text_variable = text_entry.get()
+    print(f"Updated variable: {text_variable}")  # Print the updated variable
+
+def on_exit(icon, item):
+    """Exit the application."""
+    icon.stop()
+    window.quit()
+
+def setup(icon):
+    """Setup the icon and menu."""
+    icon.visible = True
+
+# Create the text entry window
+window = tk.Tk()
+window.title("Enter Text")
+window.geometry("300x150")
+window.withdraw()  # Start hidden
+
+# Create a text entry field
+text_entry = tk.Entry(window, width=30)
+text_entry.pack(pady=10)
+
+# Create a button to update the variable
+update_button = tk.Button(window, text="Update Variable", command=update_variable)
+update_button.pack(pady=5)
+
+# Create a button to hide the text entry window
+hide_button = tk.Button(window, text="Hide", command=hide_window)
+hide_button.pack(pady=5)
+
+# Create the tray icon
+icon = Icon("test_icon", create_image(64, 64), "My Tray Icon", menu=pystray.Menu(
+    MenuItem("Show Text Entry", show_window),
+    MenuItem("Hide Text Entry", hide_window),
+    MenuItem("Exit", on_exit)
+))
+
+# Start the icon in a separate thread
+threading.Thread(target=icon.run, daemon=True).start()
+
+# Start the main loop
+window.mainloop()
 
 
 

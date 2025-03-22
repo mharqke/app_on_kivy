@@ -184,7 +184,7 @@ def on_exit(icon, item):
     uwu.on_request_close()
     icon.stop()
 
-image = Image.open("D:/3VERGIVEN/common folder/python/projects/statistic/in_process/app_on_kivy/pict.png")
+image = Image.open("D:/3VERGIVEN/common folder/python/projects/statistic/app_on_kivy/pict.png")
 
 icon = Icon("test_icon", image, "My Tray Icon", menu=pystray.Menu(
     # MenuItem('Toggle Terminal', lambda icon: toggle_terminal(icon)),

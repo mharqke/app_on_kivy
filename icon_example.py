@@ -8,7 +8,7 @@
 import pystray
 import PIL.Image 
 
-image = PIL.Image.open("D:/3VERGIVEN/common folder/python/projects/statistic/in_process/app_on_kivy/pict.png")
+image = PIL.Image.open("D:/3VERGIVEN/common folder/python\projects/statistic/app_on_kivy\pict.png")
 
 
 def on_clicked(icon, item):

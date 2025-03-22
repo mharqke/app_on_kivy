@@ -1,6 +1,7 @@
 
 rewrite compareTime, what if you don’t turn on your PC more than a day
-                      
+
+shoose image and create sth if image path is not found       
 
 
 
